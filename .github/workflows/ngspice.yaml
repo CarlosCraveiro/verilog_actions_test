@@ -1,0 +1,33 @@
+name: Run SPICE Simulation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run_spice_simulation:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Checkout the repository
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Install NGSpice
+    - name: Install NGSpice
+      run: sudo apt-get update && sudo apt-get install -y ngspice
+
+    # Run the NGSpice simulation
+    - name: Run SPICE Simulation
+      run: ngspice -b -r output.raw test_circuit.cir
+
+    # Store the simulation results as artifacts
+    - name: Upload simulation results
+      uses: actions/upload-artifact@v3
+      with:
+        name: spice-output
+        path: output.raw

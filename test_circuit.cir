@@ -1,0 +1,7 @@
+* RC Low-Pass Filter
+
+V1 N001 0 DC 0V AC 1V
+R1 N001 N002 1k
+C1 N002 0 1uF
+.ac dec 10 1 1Meg
+.end

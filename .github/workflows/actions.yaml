@@ -1,0 +1,30 @@
+name: Verilog Build and Analysis
+
+on:
+  schedule:
+  - cron: '0 0,12 * * *' 
+    # action will run everyday at 12 am and 12 pm
+  workflow_dispatch:
+
+jobs:
+  build-and-analyze:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Verilog Compiler
+      uses: jge162/verilog_compiler@1.0.0
+
+    - run: |
+        echo "Install required dependencies"
+        sudo apt-get update
+        sudo apt-get install iverilog
+        sudo apt-get install verilator
+
+    - run: |
+        echo "Set executable permission on script file"
+        chmod +x script/sh
+        chmod +x ./verilog_test_case.v
+        
+    - run: |
+        echo "Run, Build Application using script"
+        ./script/sh
